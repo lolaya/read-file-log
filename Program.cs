@@ -11,7 +11,7 @@ namespace ReadFileLog
 {
     class Program
     {
-        static string _path_folder = @"D:\Documents\Cencosud\Logs Web Privada\Data\";
+        //static string _path_folder = @"D:\Documents\Cencosud\Logs Web Privada\Data\";
         static string _line_separator = string.Empty.PadLeft(90, '-');
         static string _pattern_search = @"         000023";
         static string _first_pattern = @"_____";
@@ -27,13 +27,15 @@ namespace ReadFileLog
             Console.WriteLine(_line_separator);
             Console.WriteLine(String.Empty);
 
-            string[] _files = Directory.GetFiles(_path_folder, "*.log");
+            string[] _files = Directory.GetFiles(_directory, "*.log");
 
             //Mensajes de salida
             Console.WriteLine(String.Format("Se encontrarón {0} archivos Log...", _files.Length));
             Console.WriteLine(String.Empty);
             Console.WriteLine(_line_separator);
             Console.WriteLine(String.Empty);
+
+            if(_files.Length == 0) ENTER_TO_EXIT();
 
             Console.WriteLine("Espere procesando archivos...");
 
@@ -47,6 +49,7 @@ namespace ReadFileLog
             catch(Exception ex)
             {
                 //Mensajes de salida
+                Console.WriteLine(string.Empty);
                 Console.WriteLine(_line_separator);
                 Console.WriteLine(string.Empty);
                 Console.WriteLine(ex.Message);
@@ -63,7 +66,7 @@ namespace ReadFileLog
             Console.WriteLine(String.Empty);
             Console.WriteLine("Generando archivo Excel...");
 
-            string _path_result = string.Format("{0}{1}.{2}", _path_folder, "archivo_final", "xls");
+            string _path_result = string.Format("{0}{1}.{2}", _directory, "archivo_final", "xls");
             Export_Excel(_resultData, _path_result);
 
             //Mensajes de salida
