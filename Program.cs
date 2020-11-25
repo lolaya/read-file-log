@@ -20,6 +20,8 @@ namespace ReadFileLog
         {
             string _path = string.Format("{0}{1}.{2}", _path_folder, _file_name, "log");
             List<KeyValuePair<string, string>> _resultData = new List<KeyValuePair<string, string>>();
+            
+            //esto es un comentario....
 
             using (FileStream _file = new FileStream(_path, FileMode.Open, FileAccess.Read))
             {
