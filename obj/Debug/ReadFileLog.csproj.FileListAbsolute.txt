@@ -1,0 +1,7 @@
+D:\.Net training\ReadFileLog\bin\Debug\ReadFileLog.exe.config
+D:\.Net training\ReadFileLog\bin\Debug\ReadFileLog.exe
+D:\.Net training\ReadFileLog\bin\Debug\ReadFileLog.pdb
+D:\.Net training\ReadFileLog\obj\Debug\ReadFileLog.csprojAssemblyReference.cache
+D:\.Net training\ReadFileLog\obj\Debug\ReadFileLog.csproj.CoreCompileInputs.cache
+D:\.Net training\ReadFileLog\obj\Debug\ReadFileLog.exe
+D:\.Net training\ReadFileLog\obj\Debug\ReadFileLog.pdb
