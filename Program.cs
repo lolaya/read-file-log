@@ -18,6 +18,7 @@ namespace ReadFileLog
 
 
         //Tuple MAMA ME MIMA
+        //cambio de un pata.
 
         static void Main(string[] args)
         {
