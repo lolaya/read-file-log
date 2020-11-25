@@ -12,15 +12,80 @@ namespace ReadFileLog
     class Program
     {
         static string _path_folder = @"D:\Documents\Cencosud\Logs Web Privada\Data\";
-        static string _file_name = "autorizador_security-2020-10-31";
+        static string _line_separator = string.Empty.PadLeft(90, '-');
         static string _pattern_search = @"         000023";
         static string _first_pattern = @"_____";
 
         static void Main(string[] args)
         {
-            string _path = string.Format("{0}{1}.{2}", _path_folder, _file_name, "log");
+            String _directory = Directory.GetCurrentDirectory();
             List<KeyValuePair<string, string>> _resultData = new List<KeyValuePair<string, string>>();
 
+            //Mensajes de salida
+            Console.WriteLine(String.Empty);
+            Console.WriteLine(String.Format("Buscando archivos LOG en ruta: [{0}]", _directory));
+            Console.WriteLine(_line_separator);
+            Console.WriteLine(String.Empty);
+
+            string[] _files = Directory.GetFiles(_path_folder, "*.log");
+
+            //Mensajes de salida
+            Console.WriteLine(String.Format("Se encontrarón {0} archivos Log...", _files.Length));
+            Console.WriteLine(String.Empty);
+            Console.WriteLine(_line_separator);
+            Console.WriteLine(String.Empty);
+
+            Console.WriteLine("Espere procesando archivos...");
+
+            try
+            {
+                foreach (string _file in _files)
+                {
+                    READ_FILE(_file, _resultData);
+                }
+            }
+            catch(Exception ex)
+            {
+                //Mensajes de salida
+                Console.WriteLine(_line_separator);
+                Console.WriteLine(string.Empty);
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(string.Empty);
+                Console.WriteLine(_line_separator);
+                Console.WriteLine(string.Empty);
+
+                ENTER_TO_EXIT();
+            }
+
+            //Mensajes de salida
+            Console.WriteLine(String.Empty);
+            Console.WriteLine(_line_separator);
+            Console.WriteLine(String.Empty);
+            Console.WriteLine("Generando archivo Excel...");
+
+            string _path_result = string.Format("{0}{1}.{2}", _path_folder, "archivo_final", "xls");
+            Export_Excel(_resultData, _path_result);
+
+            //Mensajes de salida
+            Console.WriteLine(String.Empty);
+            Console.WriteLine(_line_separator);
+            Console.WriteLine(String.Empty);
+
+            ENTER_TO_EXIT();
+        }
+
+        static void ENTER_TO_EXIT()
+        {
+            Console.WriteLine("Presione ENTER para salir...");
+
+            while(Console.ReadKey().Key == ConsoleKey.Enter)
+            {
+                System.Environment.Exit(-1);
+            }
+        }
+
+        static void READ_FILE(string _path, List<KeyValuePair<string, string>> _data)
+        {
             using (FileStream _file = new FileStream(_path, FileMode.Open, FileAccess.Read))
             {
                 using (StreamReader _sr = new StreamReader(_file))
@@ -31,19 +96,18 @@ namespace ReadFileLog
                     {
                         line = _sr.ReadLine();
 
-                        if (line.Contains(_pattern_search)) {
+                        if (line.Contains(_pattern_search))
+                        {
                             bool is_valid = false;
                             string _date = Get_Date(line, true);
                             string _dni = Get_DNI(line, out is_valid);
                             KeyValuePair<string, string> _item = new KeyValuePair<string, string>(_date, _dni);
 
-                            if (is_valid && !_resultData.Contains(_item)) _resultData.Add(_item);
+                            if (is_valid && !_data.Contains(_item)) _data.Add(_item);
                         }
                     }
                 }
             }
-
-            Export_Excel(_resultData);
         }
 
         static string Get_DNI(string line, out bool is_valid)
@@ -87,16 +151,13 @@ namespace ReadFileLog
             return _sub_string;
         }
 
-        static void Export_Excel(List<KeyValuePair<string, string>> data)
-        {            
-            string _path = string.Format("{0}{1}.{2}", _path_folder, _file_name, "xls");
-
+        static void Export_Excel(List<KeyValuePair<string, string>> data, string _path)
+        {
             Excel.Application _excel = new Excel.Application();
             Excel.Workbook workbook = _excel.Workbooks.Add();
             Excel._Worksheet sheet = workbook.Sheets[1];
             Excel.Range range = sheet.UsedRange;
 
-            //Graba la data la hoja excel.
             Set_DATA(data, sheet);
 
             workbook.SaveAs(_path);
