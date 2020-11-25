@@ -16,6 +16,9 @@ namespace ReadFileLog
         static string _pattern_search = @"         000023";
         static string _first_pattern = @"_____";
 
+
+        //Tuple MAMA ME MIMA
+
         static void Main(string[] args)
         {
             string _path = string.Format("{0}{1}.{2}", _path_folder, _file_name, "log");
