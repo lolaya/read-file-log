@@ -11,23 +11,15 @@ namespace ReadFileLog
 {
     class Program
     {
-        static string _path_folder = @"D:\Documents\Cencosud\Logs Web Privada\";
+        static string _path_folder = @"D:\Documents\Cencosud\Logs Web Privada\Data\";
         static string _file_name = "autorizador_security-2020-10-31";
         static string _pattern_search = @"         000023";
         static string _first_pattern = @"_____";
-
-
-        //Tuple MAMA ME MIMA
-        //cambio de un pata.
 
         static void Main(string[] args)
         {
             string _path = string.Format("{0}{1}.{2}", _path_folder, _file_name, "log");
             List<KeyValuePair<string, string>> _resultData = new List<KeyValuePair<string, string>>();
-
-            //esto es un comentario....
-            //cambios para subir.
-            //un cambio más...
 
             using (FileStream _file = new FileStream(_path, FileMode.Open, FileAccess.Read))
             {
@@ -41,10 +33,11 @@ namespace ReadFileLog
 
                         if (line.Contains(_pattern_search)) {
                             bool is_valid = false;
-                            string _date = Get_Time(line);
+                            string _date = Get_Date(line, true);
                             string _dni = Get_DNI(line, out is_valid);
+                            KeyValuePair<string, string> _item = new KeyValuePair<string, string>(_date, _dni);
 
-                            if (is_valid) _resultData.Add(new KeyValuePair<string, string>(_date, _dni));
+                            if (is_valid && !_resultData.Contains(_item)) _resultData.Add(_item);
                         }
                     }
                 }
@@ -86,10 +79,12 @@ namespace ReadFileLog
             return _sub_string.Trim();
         }
 
-        static string Get_Time(string line)
+        static string Get_Date(string line, bool only_date)
         {
             int _last_position = (line.IndexOf(",") - 1);
-            return line.Substring(1, _last_position);
+            string _sub_string = line.Substring(1, _last_position);
+            _sub_string = only_date ? _sub_string.Substring(0, 10) : _sub_string;
+            return _sub_string;
         }
 
         static void Export_Excel(List<KeyValuePair<string, string>> data)
