@@ -124,11 +124,16 @@ namespace ReadFileLog
         static bool Is_valid_HBK(string line)
         {
             string _pattern = "HBK";
+            string _new_string = string.Empty;
             int _first_position = line.IndexOf(_pattern);
-            string _sub_string = line.Substring(_first_position, 15);
 
-            _sub_string = _sub_string.Substring(0, _sub_string.IndexOf(" "));
-            string _new_string = _sub_string.Substring((_sub_string.Length - 2));
+            if (!_first_position.Equals(-1))
+            {
+                string _sub_string = line.Substring(_first_position, 15);
+
+                _sub_string = _sub_string.Substring(0, _sub_string.IndexOf(" "));
+                _new_string = _sub_string.Substring((_sub_string.Length - 2));
+            }
 
             return (_new_string.Equals("00"));
         }

@@ -8,7 +8,6 @@ D:\.Net training\ReadFileLog\obj\Debug\ReadFileLog.pdb
 D:\.Net training\read-file-log\bin\Debug\ReadFileLog.exe.config
 D:\.Net training\read-file-log\bin\Debug\ReadFileLog.exe
 D:\.Net training\read-file-log\bin\Debug\ReadFileLog.pdb
-D:\.Net training\read-file-log\obj\Debug\ReadFileLog.csprojAssemblyReference.cache
 D:\.Net training\read-file-log\obj\Debug\ReadFileLog.csproj.CoreCompileInputs.cache
 D:\.Net training\read-file-log\obj\Debug\ReadFileLog.exe
 D:\.Net training\read-file-log\obj\Debug\ReadFileLog.pdb
